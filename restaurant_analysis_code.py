@@ -3,6 +3,7 @@
 Created on Sun Apr 2 19:17:24 2023
 
 @author: twalunjk
+
 """
 
 import pandas as pd, tkinter as tk, folium, webbrowser, matplotlib.pyplot as plt
@@ -17,7 +18,7 @@ zomato_data = pd.read_csv('zomato.csv', encoding='ISO-8859-1')
 country_names = sorted(country_codes['Country'].tolist())
 
 class ZomatoApp:
-    def __init__(self, master):       
+    def __init__(self, master):                 #Initialize GUI for Restaurant Analysis Tool       
         # Set the style to 'clam'
         style = ttk.Style()
         style.theme_use('clam')
@@ -95,7 +96,7 @@ class ZomatoApp:
         self.restaurants_label = ttk.Label(master, text="")
         self.restaurants_label.pack()
 
-    def update_cities(self, event=None):
+    def update_cities(self, event=None):        #City List
     # Get the selected country code
         country_name = self.country_var.get()
         country_data = country_codes.loc[country_codes['Country'] == country_name]
@@ -111,7 +112,7 @@ class ZomatoApp:
             # Update the city combobox with the list of cities for the selected country
             self.city_combobox.config(values=cities)
 
-    def show_map(self):
+    def show_map(self):                         #Map View
         
         if not self.country_var.get() or not self.city_var.get():
             messagebox.showerror("Error", "Please select a country and a city.")
@@ -153,7 +154,7 @@ class ZomatoApp:
                 map.save('map.html')
                 webbrowser.open('map.html')
 
-    def update_restaurants(self, event=None):
+    def update_restaurants(self, event=None):   #Compare View
         if not self.country_var.get() or not self.city_var.get():
             messagebox.showerror("Error", "Please select a country and a city.")
         else:
@@ -238,7 +239,7 @@ class ZomatoApp:
             select_button = ttk.Button(self.compare_window, text="Compare", command=select_restaurants)
             select_button.pack()
                         
-    def list_cuisines(self):
+    def list_cuisines(self):                    #Cuisine List
         # Get the unique cuisines and sort them alphabetically
         cuisines = zomato_data['Cuisines'].str.split(',').explode().str.strip().unique().tolist()
         cuisines = sorted([str(cuisine) for cuisine in cuisines if cuisine])
@@ -334,7 +335,7 @@ class ZomatoApp:
         cuisine_label.configure(foreground="#1E90FF")
         select_button.pack(pady=10)
         
-    def show_pie_chart(self):
+    def show_pie_chart(self):                   #Rating Distribution
         
         if not self.country_var.get() or not self.city_var.get():
             messagebox.showerror("Error", "Please select a country and a city.")
@@ -415,7 +416,7 @@ class ZomatoApp:
             # Show the image
             img.show()
 
-    def review_filter(self):
+    def review_filter(self):                    #Review Filter
         
         if not self.country_var.get() or not self.city_var.get():
             messagebox.showerror("Error", "Please select a country and a city.")
